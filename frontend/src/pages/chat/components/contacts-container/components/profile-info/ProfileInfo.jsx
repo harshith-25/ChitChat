@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { apiClient } from "@/lib/api-client";
+import { getColor } from "@/lib/utils";
 import { useAppStore } from "@/store/Index"
 import { HOST, LOGOUT_ROUTE } from "@/utils/constants";
 import { FiEdit2 } from "react-icons/fi";
@@ -34,7 +35,7 @@ function ProfileInfo() {
 								<AvatarFallback>CC</AvatarFallback>
 							</>
 						) : (
-							<div className={`uppercase h-12 w-12 text-lg border-[1px] flex items-center justify-center rounded-full ${userInfo.color}`}>
+							<div className={`uppercase h-12 w-12 text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(userInfo.color)}`}>
 								{userInfo.firstName ? userInfo.firstName.split('').shift() :
 									userInfo.email.split('').shift()
 								}
