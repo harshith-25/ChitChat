@@ -28,11 +28,19 @@ export const SocketProvider = ({ children }) => {
 				
 				if(selectedChatType !== undefined && (selectedChatData._id === message.sender._id || selectedChatData._id === message.recipient._id)) {
 					addMessage(message);
-					console.log('msg rec', message)
+				}
+			}
+
+			function handleRecieveChannelMessage(message) {
+				const {selectedChatData, selectedChatType, addMessage} = useAppStore.getState();
+			
+				if(selectedChatType !== undefined && selectedChatData._id === message.channelId) {
+					addMessage(message);
 				}
 			}
 
 			socket.current.on('recieveMessage', handleRecieveMessage);
+			socket.current.on('recieve-channel-message', handleRecieveChannelMessage);
 			return () => {
 				socket.current.disconnect();
 			}

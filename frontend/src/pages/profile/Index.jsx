@@ -64,7 +64,7 @@ function Profile() {
 		if (userInfo.profileSetuo) {
 			navigate('/chat');
 		} else {
-			toast.error('Please seetup profile.');
+			toast.error('Please setup profile.');
 		}
 	}
 
