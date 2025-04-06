@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef, Suspense } from 'react';
+import React, { useEffect, useState, useRef, Suspense, lazy } from 'react';
 import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
-import Auth from './pages/auth/Index';
-import Chat from './pages/chat/Index';
-import Profile from './pages/profile/Index';
+const Auth = lazy(() => import('./pages/auth/Index'));
+const Chat = lazy(() => import('./pages/chat/Index'));
+const Profile = lazy(() => import('./pages/profile/Index'));
 import { useAppStore } from './store/Index';
 import { apiClient } from './lib/api-client';
 import { GET_USER_INFO } from './utils/constants';
