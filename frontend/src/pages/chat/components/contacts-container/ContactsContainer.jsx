@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
-import ProfileInfo from './components/profile-info/ProfileInfo';
-import NewDm from './components/new-dm/NewDm';
+import { lazy, Suspense, useEffect } from 'react'
 import { apiClient } from '@/lib/api-client';
 import { GET_DM_CONTACTS_ROUTES, GET_USER_CHANNELS_ROUTE } from '@/utils/constants';
 import { useAppStore } from '@/store/Index';
-import ContactList from '@/components/ContactList';
-import CreateChannel from './components/create-channel/CreateChannel';
 import Logo from '@/utils/Logo';
+import HypnoticLoader from '@/utils/HypnoticLoader';
+const ProfileInfo = lazy(() => import('./components/profile-info/ProfileInfo'));
+const NewDm = lazy(() => import('./components/new-dm/NewDm'));
+const CreateChannel = lazy(() => import('./components/create-channel/CreateChannel'));
+const ContactList = lazy(() => import('@/components/ContactList'));
 
 function ContactsContainer() {
   const { setDirectMessagesContacts, directMessagesContacts, channels, setChannels } = useAppStore();
@@ -28,32 +29,34 @@ function ContactsContainer() {
     getContacts();
     getChannels();
   }, [setChannels, setDirectMessagesContacts]);
-  
+
   return (
-    <aside className='relative md:w-[35vw] lg:w-[30vw] xl:w-[20vw] bg-[#1b1c24] border-r-2 border-[#2f303b] w-full'>
-      <div className="p-3">
-        <Logo />
-      </div>
-      <div className="my-5">
-        <div className="flex items-center justify-between pr-10 cursor-pointer">
-          <Title text='Direct Messages' />
-          <NewDm />
+    <Suspense fallback={<HypnoticLoader />}>
+      <aside className='relative md:w-[35vw] lg:w-[30vw] xl:w-[20vw] bg-[#1b1c24] border-r-2 border-[#2f303b] w-full'>
+        <div className="p-3">
+          <Logo />
         </div>
-        <div className="max-h-[30vh] overflow-y-auto scrollbar-hidden">
-          <ContactList contacts={directMessagesContacts} />
+        <div className="my-5">
+          <div className="flex items-center justify-between pr-10 cursor-pointer">
+            <Title text='Direct Messages' />
+            <NewDm />
+          </div>
+          <div className="max-h-[30vh] overflow-y-auto scrollbar-hidden">
+            <ContactList contacts={directMessagesContacts} />
+          </div>
         </div>
-      </div>
-      <div className="my-5">
-        <div className="flex items-center justify-between pr-10 cursor-pointer">
-          <Title text='Channels' />
-          <CreateChannel />
+        <div className="my-5">
+          <div className="flex items-center justify-between pr-10 cursor-pointer">
+            <Title text='Channels' />
+            <CreateChannel />
+          </div>
+          <div className="max-h-[30vh] overflow-y-auto scrollbar-hidden">
+            <ContactList contacts={channels} isChannel={true} />
+          </div>
         </div>
-        <div className="max-h-[30vh] overflow-y-auto scrollbar-hidden">
-          <ContactList contacts={channels} isChannel={true} />
-        </div>
-      </div>
-      <ProfileInfo />
-    </aside>
+        <ProfileInfo />
+      </aside>
+    </Suspense>
   )
 }
 

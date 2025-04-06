@@ -108,6 +108,11 @@ function MessageBar() {
 					className='flex-1 p-5 bg-transparent rounded-md focus:border-none focus:outline-none'
 					value={message}
 					onChange={e => setMessage(e.target.value)}
+					onKeyDown={e => {
+						if (e.key === 'Enter' && message.trim()) {
+							handleSendMessage();
+						}
+					}}
 				/>
 				<button className='text-neutral-500 focus:border-none focus:outline-none focus:text-white duration-300 transition-all' onClick={handleAttachmentClick}>
 					<GrAttachment className='text-2xl' />
